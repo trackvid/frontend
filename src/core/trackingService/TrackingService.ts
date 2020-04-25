@@ -1,14 +1,14 @@
 import {Utils} from "@/utils/Utils";
-import {TGeoSuccess} from "@/core/trackingService/interfaces/TGeoSuccess";
+import {TLocation} from "@/core/trackingService/interfaces/TLocation";
 
 export class TrackingService {
 
-    private readonly successCallback: (newPosition: TGeoSuccess) => void;
+    private readonly successCallback: (newPosition: TLocation) => void;
     private readonly options: PositionOptions;
     private error: string = '';
 
 
-    constructor(successCallback: (newPosition: TGeoSuccess) => void, options: PositionOptions) {
+    constructor(successCallback: (newPosition: TLocation) => void, options: PositionOptions) {
         this.successCallback = successCallback;
         this.options = options;
     }
@@ -22,7 +22,7 @@ export class TrackingService {
     }
 
     private geoSuccess(position: Position): void {
-        const newPosition: TGeoSuccess = {
+        const newPosition: TLocation = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         };

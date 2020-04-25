@@ -10,10 +10,10 @@
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import {TrackButtonState} from "@/components/trackButton/interface/TrackButtonState";
     import {TrackingService} from "@/core/trackingService/TrackingService";
-    import {TGeoSuccess} from "@/core/trackingService/interfaces/TGeoSuccess";
-    import {MeasurementsState, TLocation} from "@/store/state/MeasurementsState";
     import {Utils} from "@/utils/Utils";
     import {TTrackServiceOptions} from "@/components/trackButton/interface/TTrackServiceOptions";
+    import {TMeasurementsState} from "@/core/trackingService/interfaces/TMeasurementsState";
+    import {TLocation} from "@/core/trackingService/interfaces/TLocation";
 
     @Component
     export default class TrackButton extends Vue {
@@ -66,15 +66,15 @@
             return this.trackButtonState === TrackButtonState.START;
         }
 
-        private static saveNewPosition(newPosition: TGeoSuccess): void {
+        private static saveNewPosition(newPosition: TLocation): void {
             const key: string = 'measurements';
-            const measurements: MeasurementsState[] = Utils.getLocalStorageData<MeasurementsState[]>(key, []);
+            const measurements: TMeasurementsState[] = Utils.getLocalStorageData<TMeasurementsState[]>(key, []);
             const location: TLocation = {
                 latitude: newPosition.latitude,
                 longitude: newPosition.longitude
             };
             const date: string = Utils.buildDateString('-');
-            const newItem: MeasurementsState = {
+            const newItem: TMeasurementsState = {
                 location,
                 date
             };

@@ -16,8 +16,9 @@
     import NavigationMenu from "@/components/navigationMenu/NavigationMenu.vue";
     import {TNavigationMenuOptions} from "@/components/navigationMenu/interfaces/TNavigationMenuOptions";
     import {TTrackServiceOptions} from "@/components/trackButton/interface/TTrackServiceOptions";
-    import {MeasurementsState} from "@/store/state/MeasurementsState";
     import {Utils} from "@/utils/Utils";
+    import {TMeasurementsState} from "@/core/trackingService/interfaces/TMeasurementsState";
+    import {TInfectionCase} from "@/store/state/TInfectionCase";
 
     @Component({
         components: {
@@ -34,7 +35,7 @@
                     {name: 'Details', path: '/details'}
                 ],
                 buttons: [
-                    {title: 'Fetch data', callback: () => console.log('Fetching data...'), type: ButtonType.WARNING},
+                    {title: 'Fetch data', callback: this.fetchData, type: ButtonType.WARNING},
                     {title: 'I am sick', callback: this.uploadDataset, type: ButtonType.DANGER},
                 ]
             }
@@ -49,17 +50,36 @@
 
         private uploadDataset(): void {
             const key: string = 'measurements';
-            const localDataset: MeasurementsState[] = Utils.getLocalStorageData<MeasurementsState[]>(key, []);
+            const localDataset: TMeasurementsState[] = Utils.getLocalStorageData<TMeasurementsState[]>(key, []);
             fetch('http://localhost:9090/measurements', {
-                method: "post",
+                method: 'post',
                 headers : {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     measurements: localDataset
                 })
             })
                 .then(_res => console.log('Path has been send'))
+        }
+
+        private fetchData(): void {
+            const key: string = 'measurements';
+            const localDataset: TMeasurementsState[] = Utils.getLocalStorageData<TMeasurementsState[]>(key, []);
+            fetch('http://localhost:9090/measurements/check', {
+                method: 'put',
+                headers : {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    measurements: localDataset
+                })
+            })
+                .then(res => res.json())
+                .then((res: TInfectionCase) => {
+                    window.localStorage.setItem('cases', JSON.stringify(res));
+                    console.log('Data fetched');
+                })
         }
 
     }
