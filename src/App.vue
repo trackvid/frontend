@@ -1,14 +1,12 @@
 <template>
     <div id="app">
-        <div id="nav">
-            <router-link to="/">Home</router-link>
-        </div>
         <router-view/>
     </div>
 </template>
 
 <style lang="scss">
   @import "styles/css-reset";
+  @import "styles/color.variables";
     * {
         box-sizing: border-box;
     }
@@ -18,7 +16,9 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
-        color: #2c3e50;
+        height: 100vh;
+        background-color: var(--primary-color-light);
+        color: var(--text-color-on-primary);
     }
 
     #nav {
@@ -27,7 +27,7 @@
             color: #2c3e50;
 
             &.router-link-exact-active {
-                color: #42b983;
+                color: var(--accent-color-one);
             }
         }
     }
