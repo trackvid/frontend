@@ -1,5 +1,5 @@
-import {StateModel} from "@/store/state/StateModel";
+import {RootState} from "@/store/state/RootState";
 
-export const state: StateModel = {
-    measurements: []
+export const state: RootState = {
+    cases: []
 };
