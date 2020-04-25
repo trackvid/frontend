@@ -52,6 +52,9 @@
             const localDataset: MeasurementsState[] = Utils.getLocalStorageData<MeasurementsState[]>(key, []);
             fetch('http://localhost:9090/measurements', {
                 method: "post",
+                headers : {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({
                     measurements: localDataset
                 })
