@@ -1,20 +1,37 @@
 <template>
     <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png">
-        <HelloWorld msg="TRACKVID"/>
+        <main class="home-body">
+            <TrackButton class="track-button" size="40%"/>
+        </main>
     </div>
 </template>
 
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
-    import HelloWorld from "@/components/HelloWorld.vue";
+    import TrackButton from "@/components/trackButton/TrackButton.vue";
 
     @Component({
         components: {
-            HelloWorld
+            TrackButton: TrackButton
         }
     })
     export default class Home extends Vue {
 
     }
 </script>
+
+<style scoped lang="scss">
+    .home {
+        height: 100%;
+    }
+    .home-body {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .track-button {
+            flex: 1;
+        }
+    }
+</style>
