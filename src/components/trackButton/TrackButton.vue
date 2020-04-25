@@ -19,7 +19,7 @@
     export default class TrackButton extends Vue {
         @Prop() private trackingOptions!: TTrackServiceOptions;
 
-        private static CIRCLE_WRAPPER_CLASS_NAME = 'button-wrapper';
+        private static CIRCLE_WRAPPER_CLASS_NAME: string = 'button-wrapper';
 
         public trackButtonState: TrackButtonState = TrackButtonState.START;
 
@@ -67,24 +67,19 @@
         }
 
         private static saveNewPosition(newPosition: TGeoSuccess): void {
-            const stateDTO: string | null = window.localStorage.getItem('measurements');
-            if (stateDTO == null) {
-                window.localStorage.setItem('measurements', JSON.stringify([]));
-            }
-            if (stateDTO != null) {
-                const location: TLocation = {
-                    latitude: newPosition.latitude,
-                    longitude: newPosition.longitude
-                };
-                const date: string = Utils.buildDateString('-');
-                const newItem: MeasurementsState = {
-                    location,
-                    date
-                };
-                const measurements: MeasurementsState[] = JSON.parse(stateDTO);
-                measurements.push(newItem);
-                window.localStorage.setItem('measurements', JSON.stringify(measurements));
-            }
+            const key: string = 'measurements';
+            const measurements: MeasurementsState[] = Utils.getLocalStorageData<MeasurementsState[]>(key, []);
+            const location: TLocation = {
+                latitude: newPosition.latitude,
+                longitude: newPosition.longitude
+            };
+            const date: string = Utils.buildDateString('-');
+            const newItem: MeasurementsState = {
+                location,
+                date
+            };
+            measurements.push(newItem);
+            window.localStorage.setItem(key, JSON.stringify(measurements));
         }
     }
 </script>

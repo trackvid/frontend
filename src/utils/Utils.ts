@@ -17,4 +17,13 @@ export class Utils {
     public static fixDateFragment(dateFragment: number): string {
         return dateFragment < 10 ? `0${dateFragment}` : dateFragment.toString();
     }
+
+    public static getLocalStorageData<T>(key: string, defaultValue: T): T {
+        let storageDTO: string | null = window.localStorage.getItem(key);
+        if (Utils.isNullOrUndefined(storageDTO)) {
+            storageDTO = JSON.stringify(defaultValue);
+            window.localStorage.setItem(key, storageDTO);
+        }
+        return JSON.parse(storageDTO ?? '');
+    }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <header class="home-header">
-            <NavigationMenu :nav-props="getNavigationMenuProperties()" />
+            <NavigationMenu :nav-props="getNavigationMenuProperties()"/>
         </header>
         <main class="home-body">
             <TrackButton class="track-button" :tracking-options="getTrackingOptions()"/>
@@ -16,6 +16,8 @@
     import NavigationMenu from "@/components/navigationMenu/NavigationMenu.vue";
     import {TNavigationMenuOptions} from "@/components/navigationMenu/interfaces/TNavigationMenuOptions";
     import {TTrackServiceOptions} from "@/components/trackButton/interface/TTrackServiceOptions";
+    import {MeasurementsState} from "@/store/state/MeasurementsState";
+    import {Utils} from "@/utils/Utils";
 
     @Component({
         components: {
@@ -33,7 +35,7 @@
                 ],
                 buttons: [
                     {title: 'Fetch data', callback: () => console.log('Fetching data...'), type: ButtonType.WARNING},
-                    {title: 'I am sick', callback: () => console.log('Upload sick dataset'), type: ButtonType.DANGER},
+                    {title: 'I am sick', callback: this.uploadDataset, type: ButtonType.DANGER},
                 ]
             }
         }
@@ -45,6 +47,18 @@
             }
         }
 
+        private uploadDataset(): void {
+            const key: string = 'measurements';
+            const localDataset: MeasurementsState[] = Utils.getLocalStorageData<MeasurementsState[]>(key, []);
+            fetch('http://localhost:9090/measurements', {
+                method: "post",
+                body: JSON.stringify({
+                    measurements: localDataset
+                })
+            })
+                .then(_res => console.log('Path has been send'))
+        }
+
     }
 </script>
 
@@ -52,12 +66,14 @@
     .home {
         height: 100%;
     }
+
     .home-header {
         position: absolute;
         top: 0;
         left: 0;
         z-index: 100;
     }
+
     .home-body {
         height: 100%;
         display: flex;
