@@ -1,4 +1,3 @@
-import {TrackButtonState} from "@/components/trackButton/interface/TrackButtonState";
 <template>
     <div>
         <div class="button-wrapper" @click="toggleTracking">
@@ -55,7 +54,7 @@ import {TrackButtonState} from "@/components/trackButton/interface/TrackButtonSt
         }
 
         private trackUser(): void {
-            this.intervalPid = window.setInterval(this.trackingService.saveCurrentPosition.bind(this.trackingService), 10000);
+            this.intervalPid = window.setInterval(this.trackingService.saveCurrentPosition.bind(this.trackingService), this.trackingInterval);
 
         }
 
