@@ -1,4 +1,3 @@
-import {ButtonType} from "@/components/button/interfaces/ButtonType";
 <template>
     <div class="home">
         <header class="home-header">
@@ -42,7 +41,7 @@ import {ButtonType} from "@/components/button/interfaces/ButtonType";
         public getTrackingOptions(): TTrackServiceOptions {
             return {
                 size: '40%',
-                trackInterval: 10000
+                trackInterval: 60 * 1000
             }
         }
 
