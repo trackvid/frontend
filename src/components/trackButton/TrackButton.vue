@@ -1,8 +1,9 @@
 <template>
     <div>
         <div class="button-wrapper" @click="toggleTracking">
-            <div class="circle" :class="{'circle--start': isTrackingInActive(), 'circle--stop': isTrackingActive()}"><b>{{trackButtonState}}</b></div>
+            <div class="circle" :class="{'circle--start': isTrackingInActive(), 'circle--stop': isTrackingActive(), 'animated-circle': isTrackingActive()}"><b>{{trackButtonState}}</b></div>
         </div>
+        <div class="animated-circles"></div>
     </div>
 </template>
 
@@ -115,7 +116,25 @@
         }
 
         &:hover {
-            transform: scale(1.2);
+            transform: scale(1.3);
+        }
+    }
+
+    .animated-circle {
+        animation-name: pulsing;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: both;
+    }
+
+    @keyframes pulsing {
+        from {
+            transform: scale(1.3);
+        }
+        to {
+            transform: scale(1.0);
         }
     }
 
