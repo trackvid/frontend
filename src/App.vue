@@ -22,6 +22,8 @@
         }
     })
     export default class App extends Vue{
+        private static URL: string = 'http://localhost:9090';
+
         public getNavigationMenuProperties(): TNavigationMenuOptions {
             return {
                 items: [
@@ -38,7 +40,7 @@
         private uploadDataset(): void {
             const key: string = 'measurements';
             const localDataset: TMeasurementsState[] = Utils.getLocalStorageData<TMeasurementsState[]>(key, []);
-            fetch('http://localhost:9090/measurements', {
+            fetch(`${App.URL}/measurements`, {
                 method: 'post',
                 headers : {
                     'Content-Type': 'application/json'
@@ -53,7 +55,7 @@
         private fetchData(): void {
             const key: string = 'measurements';
             const localDataset: TMeasurementsState[] = Utils.getLocalStorageData<TMeasurementsState[]>(key, []);
-            fetch('http://localhost:9090/measurements/check', {
+            fetch(`${App.URL}/measurements/check`, {
                 method: 'put',
                 headers : {
                     'Content-Type': 'application/json'
