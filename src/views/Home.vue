@@ -1,8 +1,5 @@
 <template>
     <div class="home">
-        <header class="home-header">
-            <NavigationMenu :nav-props="getNavigationMenuProperties()"/>
-        </header>
         <main class="home-body">
             <TrackButton class="track-button" :tracking-options="getTrackingOptions()"/>
         </main>
@@ -13,20 +10,25 @@
     import {Component, Vue} from 'vue-property-decorator';
     import TrackButton from "@/components/trackButton/TrackButton.vue";
     import {ButtonType} from "@/components/button/interfaces/ButtonType";
-    import NavigationMenu from "@/components/navigationMenu/NavigationMenu.vue";
     import {TNavigationMenuOptions} from "@/components/navigationMenu/interfaces/TNavigationMenuOptions";
     import {TTrackServiceOptions} from "@/components/trackButton/interface/TTrackServiceOptions";
     import {Utils} from "@/utils/Utils";
     import {TMeasurementsState} from "@/core/trackingService/interfaces/TMeasurementsState";
-    import {TInfectionCase} from "@/store/state/TInfectionCase";
+    import {TServerResponse} from "@/store/TServerResponse";
 
     @Component({
         components: {
-            TrackButton: TrackButton,
-            NavigationMenu: NavigationMenu
+            TrackButton: TrackButton
         }
     })
     export default class Home extends Vue {
+
+        public getTrackingOptions(): TTrackServiceOptions {
+            return {
+                size: '40%',
+                trackInterval: 60 * 1000
+            }
+        }
 
         public getNavigationMenuProperties(): TNavigationMenuOptions {
             return {
@@ -38,13 +40,6 @@
                     {title: 'Fetch data', callback: this.fetchData, type: ButtonType.WARNING},
                     {title: 'I am sick', callback: this.uploadDataset, type: ButtonType.DANGER},
                 ]
-            }
-        }
-
-        public getTrackingOptions(): TTrackServiceOptions {
-            return {
-                size: '40%',
-                trackInterval: 60 * 1000
             }
         }
 
@@ -76,7 +71,7 @@
                 })
             })
                 .then(res => res.json())
-                .then((res: TInfectionCase) => {
+                .then((res: TServerResponse) => {
                     window.localStorage.setItem('cases', JSON.stringify(res));
                     console.log('Data fetched');
                 })
@@ -88,13 +83,6 @@
 <style scoped lang="scss">
     .home {
         height: 100%;
-    }
-
-    .home-header {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 100;
     }
 
     .home-body {

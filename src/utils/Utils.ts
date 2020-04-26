@@ -4,6 +4,10 @@ export class Utils {
         return value == null;
     }
 
+    public static isNullOrUndefinedOrEmpty(value: unknown[]): boolean {
+        return value == null || value.length === 0;
+    }
+
     public static buildDateString(separator: string): string {
         const date: Date = new Date();
         const year: string = date.getUTCFullYear().toString();
@@ -25,5 +29,15 @@ export class Utils {
             window.localStorage.setItem(key, storageDTO);
         }
         return JSON.parse(storageDTO ?? '');
+    }
+
+    public static getLocalStorageMap<T, V>(key: string): Map<T, V> {
+        let storageDTO: string | null = window.localStorage.getItem(key);
+        if (Utils.isNullOrUndefined(storageDTO)) {
+            const defaultValue: Map<T, V> = new Map<T, V>();
+            storageDTO = JSON.stringify(Array.from(defaultValue.entries()));
+            window.localStorage.setItem(key, storageDTO);
+        }
+        return new Map<T, V>(JSON.parse(storageDTO ?? '[]'));
     }
 }

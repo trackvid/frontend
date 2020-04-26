@@ -4,7 +4,7 @@
         <nav v-if="isNavVisible">
             <img @click="toggleNavigationMenu" class="hamburger-menu" src="../../assets/icons/close.svg" alt="close menu">
             <ul>
-                <li class="nav-item" v-for="item in items">
+                <li class="nav-item" v-for="item in items" @click="toggleNavigationMenu">
                     <router-link class="nav-item__content" :to="item.path">{{item.name}}</router-link>
                 </li>
             </ul>
@@ -82,10 +82,24 @@
     }
     .nav-item {
         padding: 30px 0;
+        transition: all 0.3s ease-in-out;
 
         &__content {
             font-size: 2.5em;
         }
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        a {
+            transition: all 0.3s ease-in-out;
+
+            &:hover {
+                color: var(--accent-color-one);
+            }
+        }
+
     }
     .nav-buttons {
         padding-top: 80px;
