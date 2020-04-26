@@ -25,7 +25,7 @@
 
         private readonly size: string;
         private readonly trackingInterval: number;
-        private trackingService: TrackingService = new TrackingService(TrackButton.saveNewPosition, {timeout: 10000});
+        private trackingService: TrackingService = new TrackingService(TrackButton.saveNewPosition, {timeout: 10000, enableHighAccuracy: true, maximumAge: 0});
         private intervalPid: number = 0;
 
         constructor() {
